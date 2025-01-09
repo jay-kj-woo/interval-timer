@@ -28,14 +28,18 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'yarn'
 
       - name: Set up Yarn
         run: |
           corepack enable
-          yarn set version stable
+          corepack prepare yarn@4.6.0 --activate
+
+      - name: Verify Yarn version
+        run: yarn --version
 
       - name: Install dependencies
-        run: yarn install
+        run: yarn install --immutable
 
       - name: Build
         run: yarn build
@@ -46,7 +50,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist' # or './build' if using Create React App
+          path: './dist'
 
       - name: Deploy to GitHub Pages
         id: deployment
