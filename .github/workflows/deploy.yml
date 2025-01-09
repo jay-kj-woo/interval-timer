@@ -35,7 +35,7 @@ jobs:
           yarn set version stable
 
       - name: Install dependencies
-        run: yarn install --immutable # Uses yarn.lock for exact versions
+        run: yarn install
 
       - name: Build
         run: yarn build
