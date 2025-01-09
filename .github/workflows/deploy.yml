@@ -2,7 +2,7 @@ name: Deploy static content to Pages
 
 on:
   push:
-    branches: ["main"]
+    branches: ['main']
   workflow_dispatch:
 
 permissions:
@@ -11,7 +11,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: 'pages'
   cancel-in-progress: false
 
 jobs:
@@ -23,27 +23,32 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'yarn' # Enable caching for yarn
-          
+
+      - name: Set up Yarn
+        run: |
+          corepack enable
+          corepack prepare yarn@stable --activate
+
       - name: Install dependencies
-        run: yarn install --frozen-lockfile # Uses yarn.lock for exact versions
-        
+        run: yarn install --immutable # Uses yarn.lock for exact versions
+
       - name: Build
         run: yarn build
-        
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
-        
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'  # or './build' if using Create React App
-          
+          path: './dist' # or './build' if using Create React App
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
