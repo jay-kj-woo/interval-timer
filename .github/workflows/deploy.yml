@@ -32,10 +32,10 @@ jobs:
       - name: Set up Yarn
         run: |
           corepack enable
-          corepack prepare yarn@stable --activate
+          yarn set version stable
 
       - name: Install dependencies
-        run: yarn install --immutable --verbose # Uses yarn.lock for exact versions
+        run: yarn install --immutable # Uses yarn.lock for exact versions
 
       - name: Build
         run: yarn build
