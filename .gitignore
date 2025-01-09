@@ -1,6 +1,4 @@
-# yarn related
-.yarn/cache
-.yarn/install-state.gz
+
 
 # Logs
 logs
