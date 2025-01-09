@@ -28,7 +28,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'yarn' # Enable caching for yarn
 
       - name: Set up Yarn
         run: |
@@ -36,7 +35,7 @@ jobs:
           corepack prepare yarn@stable --activate
 
       - name: Install dependencies
-        run: yarn install --immutable # Uses yarn.lock for exact versions
+        run: yarn install --immutable --verbose # Uses yarn.lock for exact versions
 
       - name: Build
         run: yarn build
