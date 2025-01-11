@@ -1,19 +1,20 @@
 import { useContext, useState } from 'react';
+import { useNavigate } from 'react-router';
 import { IntervalTimer } from '../types/IntervalTimer';
 import { TimerConfigContext } from './TimerConfigProvider';
 
-type Props = {
-  closeEditTimer: () => void;
-};
-
-const EditTimer = ({ closeEditTimer }: Props) => {
+const EditTimer = () => {
   const { timerConfig, setTimerConfig } = useContext(TimerConfigContext);
-
+  const navigate = useNavigate();
   const [newConfig, setNewConfig] = useState<IntervalTimer>(timerConfig);
 
   const onSave = () => {
     setTimerConfig(newConfig);
-    closeEditTimer();
+    goToHome();
+  };
+
+  const goToHome = () => {
+    navigate('/');
   };
 
   return (
@@ -52,7 +53,7 @@ const EditTimer = ({ closeEditTimer }: Props) => {
           }
         />
         <div className="flex items-center justify-center gap-4">
-          <button onClick={() => closeEditTimer()}>Cancel</button>
+          <button onClick={goToHome}>Cancel</button>
           <button onClick={onSave}>Save</button>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import EditTimer from './EditTimer';
+import { useNavigate } from 'react-router';
 import { TimerConfigContext } from './TimerConfigProvider';
 
 const Timer = () => {
@@ -8,7 +8,7 @@ const Timer = () => {
   const [isHighIntensity, setIsHighIntensity] = useState(true);
   const [isActive, setIsActive] = useState(false);
   const [currentRound, setCurrentRound] = useState(1);
-  const [showEditTimer, setShowEditTimer] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     let interval: number;
@@ -58,7 +58,7 @@ const Timer = () => {
       <div className="w-full h-full flex flex-col items-center justify-center gap-4">
         <button
           className="absolute top-0 right-0 m-4 text-white"
-          onClick={() => setShowEditTimer(true)}
+          onClick={() => navigate('/edit')}
         >
           Edit Timer
         </button>
@@ -83,9 +83,6 @@ const Timer = () => {
           </button>
         </div>
       </div>
-      {showEditTimer && (
-        <EditTimer closeEditTimer={() => setShowEditTimer(false)} />
-      )}
     </div>
   );
 };
