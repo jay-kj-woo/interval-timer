@@ -1,16 +1,14 @@
-import { useEffect, useState } from 'react';
-import { IntervalTimer } from '../types/IntervalTimer';
+import { useContext, useEffect, useState } from 'react';
+import EditTimer from './EditTimer';
+import { TimerConfigContext } from './TimerConfigProvider';
 
-type Props = {
-  intervalTimer: IntervalTimer;
-};
-
-const Timer = ({ intervalTimer }: Props) => {
-  const config = intervalTimer;
-  const [timeLeft, setTimeLeft] = useState(config.highIntensity);
+const Timer = () => {
+  const { timerConfig } = useContext(TimerConfigContext);
+  const [timeLeft, setTimeLeft] = useState(timerConfig.highIntensity);
   const [isHighIntensity, setIsHighIntensity] = useState(true);
   const [isActive, setIsActive] = useState(false);
   const [currentRound, setCurrentRound] = useState(1);
+  const [showEditTimer, setShowEditTimer] = useState(false);
 
   useEffect(() => {
     let interval: number;
@@ -22,12 +20,12 @@ const Timer = ({ intervalTimer }: Props) => {
     } else if (timeLeft === 0) {
       if (isHighIntensity) {
         setIsHighIntensity(false);
-        setTimeLeft(config.lowIntensity);
+        setTimeLeft(timerConfig.lowIntensity);
       } else {
-        if (currentRound < config.rounds) {
+        if (currentRound < timerConfig.rounds) {
           setCurrentRound((p) => p + 1);
           setIsHighIntensity(true);
-          setTimeLeft(config.highIntensity);
+          setTimeLeft(timerConfig.highIntensity);
         } else {
           setIsActive(false);
         }
@@ -35,12 +33,12 @@ const Timer = ({ intervalTimer }: Props) => {
     }
 
     return () => clearInterval(interval);
-  }, [config, currentRound, isActive, isHighIntensity, timeLeft]);
+  }, [timerConfig, currentRound, isActive, isHighIntensity, timeLeft]);
 
   const onResetTimer = () => {
     setIsActive(false);
     setIsHighIntensity(true);
-    setTimeLeft(config.highIntensity);
+    setTimeLeft(timerConfig.highIntensity);
     setCurrentRound(1);
   };
 
@@ -58,11 +56,17 @@ const Timer = ({ intervalTimer }: Props) => {
       }`}
     >
       <div className="w-full h-full flex flex-col items-center justify-center gap-4">
+        <button
+          className="absolute top-0 right-0 m-4 text-white"
+          onClick={() => setShowEditTimer(true)}
+        >
+          Edit Timer
+        </button>
         <div className="text-white text-4xl font-bold text-center">
           {minutes} : {seconds}
         </div>
         <div className="text-white text-4xl font-bold text-center">
-          {currentRound} / {config.rounds}
+          {currentRound} / {timerConfig.rounds}
         </div>
         <div className="flex items-center justify-center gap-4">
           <button
@@ -79,6 +83,9 @@ const Timer = ({ intervalTimer }: Props) => {
           </button>
         </div>
       </div>
+      {showEditTimer && (
+        <EditTimer closeEditTimer={() => setShowEditTimer(false)} />
+      )}
     </div>
   );
 };
