@@ -1,16 +1,19 @@
 import { BrowserRouter, Route, Routes } from 'react-router';
-import EditTimer from './components/EditTimer';
-import Timer from './components/Timer';
 import TimerConfigProvider from './components/TimerConfigProvider';
+import AddPage from './pages/AddPage';
+import HomePage from './pages/HomePage';
+import TimerPage from './pages/TimerPage';
 
 function App() {
   return (
     <BrowserRouter>
-      <main className="w-screen h-screen flex items-center justify-center">
+      <main className="min-h-screen p-0 m-0">
         <TimerConfigProvider>
           <Routes>
-            <Route index element={<Timer />} />
-            <Route path="/edit" element={<EditTimer />} />
+            <Route index element={<HomePage />} />
+            <Route path="/timer" element={<TimerPage />} />
+            {/* <Route path="/edit" element={<EditTimer />} /> */}
+            <Route path="/add" element={<AddPage />} />
           </Routes>
         </TimerConfigProvider>
       </main>
