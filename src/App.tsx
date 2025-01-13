@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router';
 import TimerConfigProvider from './components/TimerConfigProvider';
 import AddPage from './pages/AddPage';
+import EditPage from './pages/EditPage';
 import HomePage from './pages/HomePage';
 import TimerPage from './pages/TimerPage';
 
@@ -12,7 +13,7 @@ function App() {
           <Routes>
             <Route index element={<HomePage />} />
             <Route path="/timer" element={<TimerPage />} />
-            {/* <Route path="/edit" element={<EditTimer />} /> */}
+            <Route path="/edit/:timerId" element={<EditPage />} />
             <Route path="/add" element={<AddPage />} />
           </Routes>
         </TimerConfigProvider>

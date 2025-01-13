@@ -34,6 +34,13 @@ export class TimerStorageClient {
     localStorage.setItem('timers', JSON.stringify(timers));
   }
 
+  static getTimer(id: number): IntervalTimer {
+    const timers = this.getTimers();
+    const timer = timers.find((t) => t.id === id);
+    if (!timer) throw new Error('Timer not found');
+    return timer;
+  }
+
   static generateId(): number {
     return this.getTimers().length + 1;
   }
