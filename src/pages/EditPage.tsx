@@ -12,9 +12,17 @@ const EditPage = () => {
   }
   const existingConfig = TimerStorageClient.getTimer(+timerId);
 
+  const goBackToTimer = () => {
+    navigate(`/timer/${timerId}`);
+  };
+
   const onSave = (newConfig: UpdateIntervalTimer) => {
     TimerStorageClient.updateTimer(newConfig);
-    navigate('/timer');
+    goBackToTimer();
+  };
+
+  const onCancel = () => {
+    goBackToTimer();
   };
 
   return (
@@ -26,7 +34,7 @@ const EditPage = () => {
         <TimerForm
           existingConfig={existingConfig}
           onSave={onSave}
-          onCancel={() => navigate('/')}
+          onCancel={onCancel}
           type="edit"
         />
       </div>

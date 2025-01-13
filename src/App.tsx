@@ -12,7 +12,7 @@ function App() {
         <TimerConfigProvider>
           <Routes>
             <Route index element={<HomePage />} />
-            <Route path="/timer" element={<TimerPage />} />
+            <Route path="/timer/:timerId" element={<TimerPage />} />
             <Route path="/edit/:timerId" element={<EditPage />} />
             <Route path="/add" element={<AddPage />} />
           </Routes>

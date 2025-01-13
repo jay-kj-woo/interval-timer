@@ -1,24 +1,10 @@
 import { ChevronRightIcon, PlusIcon } from '@heroicons/react/24/solid';
-import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router';
-import { TimerConfigContext } from '../components/TimerConfigProvider';
-import { IntervalTimer } from '../types/IntervalTimer';
-
-const getTimersFromLocalStorage = (): IntervalTimer[] => {
-  const timers = localStorage.getItem('timers');
-  return timers ? JSON.parse(timers) : [];
-};
+import { TimerStorageClient } from '../utils/timerStorageClient';
 
 const HomePage = () => {
-  const existingTimers = getTimersFromLocalStorage();
-  const { setTimerConfig } = useContext(TimerConfigContext);
+  const existingTimers = TimerStorageClient.getTimers();
   const navigate = useNavigate();
-
-  // TODO: use url params to get the timer id instead of the context
-  const handleTimerClick = (timer: IntervalTimer) => {
-    setTimerConfig(timer);
-    navigate('/timer');
-  };
 
   return (
     <main className="flex flex-col min-h-screen p-4 sm:p-8 bg-gradient-to-br from-purple-700 to-blue-500">
@@ -28,12 +14,7 @@ const HomePage = () => {
       <div className="flex flex-1 ">
         <ul className="w-full flex flex-col gap-4">
           {existingTimers.map((timer) => (
-            <Link
-              key={timer.name}
-              to={`/timer`}
-              className="block"
-              onClick={() => handleTimerClick(timer)}
-            >
+            <Link key={timer.name} to={`/timer/${timer.id}`} className="block">
               <div className="bg-white/90 hover:bg-white transition-colors duration-300 transform hover:scale-105 rounded-md">
                 <div className="flex justify-between items-center py-4 px-5">
                   <div className="flex items-center space-x-3">

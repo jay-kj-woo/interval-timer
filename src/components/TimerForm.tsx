@@ -1,4 +1,4 @@
-import { PlusIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import { CheckIcon, PlusIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import {
   CreateIntervalTimer,
@@ -103,6 +103,7 @@ const TimerForm = (props: Props) => {
         </div>
         <div className="flex items-center justify-between gap-4 mt-4">
           <button
+            type="button"
             onClick={onCancel}
             className="flex items-center gap-2
           border border-purple-800 rounded-md px-4 py-2"
@@ -115,8 +116,17 @@ const TimerForm = (props: Props) => {
             className="flex items-center gap-2
           border border-yellow-400 bg-yellow-400 rounded-md px-4 py-2"
           >
-            <PlusIcon className="w-4 h-4" />
-            Add Timer
+            {type === 'edit' ? (
+              <>
+                <CheckIcon className="w-4 h-4" />
+                Save
+              </>
+            ) : (
+              <>
+                <PlusIcon className="w-4 h-4" />
+                Add Timer
+              </>
+            )}
           </button>
         </div>
       </div>
