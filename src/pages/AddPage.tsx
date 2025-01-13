@@ -6,9 +6,17 @@ import { TimerStorageClient } from '../utils/timerStorageClient';
 const AddPage = () => {
   const navigate = useNavigate();
 
+  const goBackToHome = () => {
+    navigate('/');
+  };
+
   const onSave = (newConfig: CreateIntervalTimer) => {
     TimerStorageClient.saveTimer(newConfig);
-    navigate('/');
+    goBackToHome();
+  };
+
+  const onCancel = () => {
+    goBackToHome();
   };
 
   return (
@@ -17,11 +25,7 @@ const AddPage = () => {
         <h1 className="text-3xl sm:text-4xl font-bold mb-6 text-center text-slate-900 drop-shadow-lg">
           Add a new timer
         </h1>
-        <TimerForm
-          onSave={onSave}
-          onCancel={() => navigate('/')}
-          type="create"
-        />
+        <TimerForm onSave={onSave} onCancel={onCancel} type="create" />
       </div>
     </main>
   );
