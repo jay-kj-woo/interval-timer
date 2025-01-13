@@ -16,7 +16,3 @@ export interface CreateIntervalTimer {
 export interface UpdateIntervalTimer extends Partial<CreateIntervalTimer> {
   id: number;
 }
-
-export interface DeleteIntervalTimer {
-  id: number;
-}

@@ -1,6 +1,5 @@
 import {
   CreateIntervalTimer,
-  DeleteIntervalTimer,
   IntervalTimer,
   UpdateIntervalTimer,
 } from '../types/IntervalTimer';
@@ -26,9 +25,9 @@ export class TimerStorageClient {
     localStorage.setItem('timers', JSON.stringify(timers));
   }
 
-  static deleteTimer(timer: DeleteIntervalTimer) {
+  static deleteTimer(id: number) {
     const timers = this.getTimers();
-    const index = timers.findIndex((t) => t.id === timer.id);
+    const index = timers.findIndex((t) => t.id === id);
     if (index === -1) throw new Error('Timer not found');
     timers.splice(index, 1);
     localStorage.setItem('timers', JSON.stringify(timers));

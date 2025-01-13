@@ -1,4 +1,9 @@
-import { CheckIcon, PlusIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import {
+  CheckIcon,
+  PlusIcon,
+  TrashIcon,
+  XMarkIcon,
+} from '@heroicons/react/24/solid';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import {
   CreateIntervalTimer,
@@ -12,6 +17,7 @@ type Props =
       onCancel: () => void;
       onSave: (newConfig: UpdateIntervalTimer) => void;
       type: 'edit';
+      onDelete: (id: number) => void;
     }
   | {
       onCancel: () => void;
@@ -129,6 +135,19 @@ const TimerForm = (props: Props) => {
             )}
           </button>
         </div>
+        {type === 'edit' && (
+          <div className="mt-4">
+            <button
+              type="button"
+              onClick={() => props.onDelete(props.existingConfig.id)}
+              className="flex items-center gap-2 w-full justify-center text-white
+          border border-red-500 bg-red-500 rounded-md px-4 py-2"
+            >
+              <TrashIcon className="w-4 h-4" />
+              Delete Timer
+            </button>
+          </div>
+        )}
       </div>
     </form>
   );

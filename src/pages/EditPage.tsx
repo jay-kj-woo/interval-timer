@@ -16,6 +16,10 @@ const EditPage = () => {
     navigate(`/timer/${timerId}`);
   };
 
+  const goBackToHome = () => {
+    navigate('/');
+  };
+
   const onSave = (newConfig: UpdateIntervalTimer) => {
     TimerStorageClient.updateTimer(newConfig);
     goBackToTimer();
@@ -23,6 +27,11 @@ const EditPage = () => {
 
   const onCancel = () => {
     goBackToTimer();
+  };
+
+  const onDelete = (id: number) => {
+    TimerStorageClient.deleteTimer(id);
+    goBackToHome();
   };
 
   return (
@@ -36,6 +45,7 @@ const EditPage = () => {
           onSave={onSave}
           onCancel={onCancel}
           type="edit"
+          onDelete={onDelete}
         />
       </div>
     </main>
