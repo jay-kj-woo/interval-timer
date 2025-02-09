@@ -6,7 +6,7 @@ import TimerPage from './pages/TimerPage';
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.VITE_BASE_URL}>
       <main className="min-h-screen p-0 m-0">
         <Routes>
           <Route index element={<HomePage />} />

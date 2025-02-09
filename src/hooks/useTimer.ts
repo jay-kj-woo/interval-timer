@@ -16,7 +16,7 @@ const useTimer = ({ timerConfig, intervalPrecision = 100 }: Props) => {
     let interval: number;
 
     if (isActive) {
-      interval = setInterval(() => {
+      interval = window.setInterval(() => {
         setTimeLeft((prevTime) => {
           const intervalTime = intervalPrecision / 1000;
           const newTime = prevTime - intervalTime;

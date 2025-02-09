@@ -42,6 +42,8 @@ jobs:
         run: yarn install
 
       - name: Build
+        env:
+          VITE_BASE_URL: '/${{ github.event.repository.name }}/'
         run: yarn build
 
       - name: Setup Pages
