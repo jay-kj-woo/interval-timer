@@ -1,50 +1,18 @@
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
+import useTimer from '../hooks/useTimer';
 import { IntervalTimer } from '../types/IntervalTimer';
 import TimerDisplay from './TimerDisplay';
 
 const Timer = ({ timerConfig }: { timerConfig: IntervalTimer }) => {
-  const [timeLeft, setTimeLeft] = useState(timerConfig.highIntensity);
-  const [isHighIntensity, setIsHighIntensity] = useState(true);
-  const [isActive, setIsActive] = useState(false);
-  const [currentRound, setCurrentRound] = useState(1);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    let interval: number;
-
-    if (isActive && timeLeft > 0) {
-      interval = setInterval(() => {
-        setTimeLeft((p) => p - 1);
-      }, 1000);
-    } else if (timeLeft === 0) {
-      if (isHighIntensity) {
-        setIsHighIntensity(false);
-        setTimeLeft(timerConfig.lowIntensity);
-      } else {
-        if (currentRound < timerConfig.rounds) {
-          setCurrentRound((p) => p + 1);
-          setIsHighIntensity(true);
-          setTimeLeft(timerConfig.highIntensity);
-        } else {
-          setIsActive(false);
-        }
-      }
-    }
-
-    return () => clearInterval(interval);
-  }, [timerConfig, currentRound, isActive, isHighIntensity, timeLeft]);
-
-  const onResetTimer = () => {
-    setIsActive(false);
-    setIsHighIntensity(true);
-    setTimeLeft(timerConfig.highIntensity);
-    setCurrentRound(1);
-  };
-
-  const toggleTimer = () => {
-    setIsActive(!isActive);
-  };
+  const {
+    timeLeft,
+    isHighIntensity,
+    isActive,
+    currentRound,
+    onResetTimer,
+    toggleTimer,
+  } = useTimer({ timerConfig });
 
   const onEditTimer = () => {
     navigate(`/edit/${timerConfig.id}`);
@@ -77,8 +45,13 @@ const Timer = ({ timerConfig }: { timerConfig: IntervalTimer }) => {
           timeLeft={timeLeft}
           currentRound={currentRound}
           totalRounds={timerConfig.rounds}
+          initialTime={
+            isHighIntensity
+              ? timerConfig.highIntensity
+              : timerConfig.lowIntensity
+          }
         />
-        <div className="flex items-center justify-center gap-4">
+        <div className="flex items-center justify-center gap-4 landscape:justify-between landscape:absolute landscape:w-full landscape:bottom-0 landscape:p-4">
           <button
             onClick={toggleTimer}
             className="bg-white text-black px-4 py-2 rounded-md"
