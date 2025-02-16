@@ -14,10 +14,9 @@ const TimerDisplay = ({
   initialTime,
 }: Props) => {
   const [timerRadius, setTimerRadius] = useState(0);
+
   const handleContainerRefCallback = (node: HTMLDivElement) => {
     if (node) {
-      console.dir('node', node);
-      console.log(node.clientWidth, node.clientHeight);
       setTimerRadius(Math.min(node.clientWidth, node.clientHeight) / 2);
     }
   };
