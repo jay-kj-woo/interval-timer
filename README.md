@@ -4,7 +4,7 @@
 
 - [x] ad free
 - [x] Customizable high intensity and low intensity time with rounds
-- [ ] has timer sound
+- [x] has timer sound
 - [x] Multiple timer configuration which are saved in local storage
 - [x] Able to edit or add new timer configuration
 - [ ] PWA to be able to install on mobile device
