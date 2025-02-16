@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
+import bellSound from '../assets/boxingBellFX.mp3';
 import { IntervalTimer } from '../types/IntervalTimer';
-
 interface Props {
   timerConfig: IntervalTimer;
   intervalPrecision?: number;
@@ -11,6 +11,7 @@ const useTimer = ({ timerConfig, intervalPrecision = 100 }: Props) => {
   const [isHighIntensity, setIsHighIntensity] = useState(true);
   const [isActive, setIsActive] = useState(false);
   const [currentRound, setCurrentRound] = useState(1);
+  const [audio] = useState(new Audio(bellSound));
 
   useEffect(() => {
     let interval: number;
@@ -21,6 +22,7 @@ const useTimer = ({ timerConfig, intervalPrecision = 100 }: Props) => {
           const intervalTime = intervalPrecision / 1000;
           const newTime = prevTime - intervalTime;
           if (newTime <= 0) {
+            audio.play();
             clearInterval(interval);
             if (isHighIntensity) {
               setIsHighIntensity(false);
