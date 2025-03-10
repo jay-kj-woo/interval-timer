@@ -13,6 +13,32 @@ const useTimer = ({ timerConfig, intervalPrecision = 100 }: Props) => {
   const [currentRound, setCurrentRound] = useState(1);
   const [audio] = useState(new Audio(bellSound));
 
+  const playAudio = useCallback(() => {
+    if (!audio.ended) {
+      audio.load();
+    }
+    audio.play();
+  }, [audio]);
+
+  const handleNextTimerValue = useCallback(() => {
+    if (isHighIntensity) {
+      setIsHighIntensity(false);
+      return timerConfig.lowIntensity;
+    }
+
+    if (currentRound < timerConfig.rounds) {
+      setCurrentRound(currentRound + 1);
+      setIsHighIntensity(true);
+      return timerConfig.highIntensity;
+    }
+
+    setIsHighIntensity(true);
+    setCurrentRound(1);
+    setIsActive(false);
+
+    return timerConfig.highIntensity;
+  }, [currentRound, isHighIntensity, timerConfig]);
+
   useEffect(() => {
     let interval: number;
 
@@ -21,35 +47,22 @@ const useTimer = ({ timerConfig, intervalPrecision = 100 }: Props) => {
         setTimeLeft((prevTime) => {
           const intervalTime = intervalPrecision / 1000;
           const newTime = prevTime - intervalTime;
-          if (newTime <= 0) {
-            audio.play();
-            clearInterval(interval);
-            if (isHighIntensity) {
-              setIsHighIntensity(false);
-              setTimeLeft(timerConfig.lowIntensity);
-            } else {
-              if (currentRound < timerConfig.rounds) {
-                setCurrentRound(currentRound + 1);
-                setIsHighIntensity(true);
-                setTimeLeft(timerConfig.highIntensity);
-              } else {
-                setIsActive(false);
-              }
-            }
-            return 0;
-          }
-          return newTime;
+          if (newTime > 0) return newTime;
+
+          playAudio();
+          clearInterval(interval);
+
+          return handleNextTimerValue();
         });
       }, intervalPrecision);
     }
 
     return () => {
       if (interval) {
-        console.log('CLEARING INTERVAL');
         clearInterval(interval);
       }
     };
-  }, [timerConfig, currentRound, isActive, isHighIntensity, intervalPrecision]);
+  }, [handleNextTimerValue, intervalPrecision, isActive, playAudio]);
 
   const onResetTimer = useCallback(() => {
     setIsActive(false);
