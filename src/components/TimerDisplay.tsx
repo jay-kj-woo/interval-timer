@@ -36,6 +36,8 @@ const TimerDisplay = ({
   const circumference = normalizedRadius * 2 * Math.PI;
   const strokeDashoffset = circumference - (progress / 100) * circumference;
 
+  const isFullCircle = progress === 100;
+
   return (
     <div
       className="relative flex flex-col items-center justify-center w-full h-full"
@@ -65,7 +67,9 @@ const TimerDisplay = ({
           r={normalizedRadius}
           cx={radius}
           cy={radius}
-          className="transition-all duration-100 ease-linear"
+          className={
+            isFullCircle ? '' : 'transition-all duration-100 ease-linear'
+          }
         />
       </svg>
 
