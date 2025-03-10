@@ -7,4 +7,4 @@
 - [x] has timer sound
 - [x] Multiple timer configuration which are saved in local storage
 - [x] Able to edit or add new timer configuration
-- [ ] PWA to be able to install on mobile device
+- [x] PWA to be able to install on mobile device
